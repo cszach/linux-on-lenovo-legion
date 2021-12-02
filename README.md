@@ -14,17 +14,18 @@ requests for suggestions, comments, and questions.
 My system
 ---------
 
-- Machine: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
-- Operating system: Fedora 35
-- Linux kernel's version (as of latest commit): 5.15.5
+- **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
+- **Operating system**: Fedora 35
+- **Linux kernel's version** (as of latest commit): 5.15.5
 
 Table of Content
 ----------------
 
-1. Wi-Fi
-	- Downloading and install the driver
-	- Kernel update
-	- Acknowledgement
+1. [Wi-Fi](#wi-fi)
+	- [Downloading and installing the driver](#downloading-and-installing-the-driver)
+	- [Kernel update](#kernel-update)
+	- [Acknowledgment](#acknowledgment)
+	- [TL;DR](#tldr)
 
 Wi-Fi
 -----
@@ -35,38 +36,38 @@ RTL8852AE 802.11ax. Thus, you will need to download and install it.
 
 ### Downloading and installing the driver
 
-1. Please temporarily connect to the Internet using Ethernet or a wireless USB
-   adapter. You may also use another computer.
-2. Download/clone [this repository](https://lwfinger/rtw89). You can clone any
-   of the `main`, `v5`, `v6`, and `v7` branches. I tried the `main` branch and
-   the `v7` branch, both of which worked (I am currently using the `v7`). But
-   this might not be the case for your machine. In issue
+1. Please **temporarily connect to the Internet using Ethernet or a wireless USB
+   adapter.** You may also use another computer.
+2. **Download/clone [this repository](https://github.com/lwfinger/rtw89).** You
+   can clone any of the `main`, `v5`, `v6`, and `v7` branches. I tried the
+   `main` branch and the `v7` branch, both of which worked (I am currently using
+   the `v7`). But this might not be the case for your machine. In issue
    [#38](https://github.com/lwfinger/rtw89/issues/38) of the repository,
    GitHub user **lukinoway** insisted on using the `main` branch instead of the
    `v5` branch. Please try until you find one that works.
-3. Create a directory for storing a MOK (Machine Owner Key) to allow the driver
-   to run. You would want to keep this key, so store it with care. Assume you
-   store them in `~/MOK`.
-4. Open a terminal in the directory you created in step 3.
-5. Request a new MOK key pair.
+3. **Create a directory for storing a MOK** (Machine Owner Key) to allow the
+   driver to run. You would want to keep this key, so store it with care. Assume
+   you store them in `~/MOK`.
+4. **Open a terminal in the directory you created in step 3.**
+5. **Request a new MOK key pair.**
 
 ```bash
 openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Custom MOK/"
 ```
 
-6. Import the MOK key.
+6. **Import the MOK key.**
 
 ```bash
 sudo mokutil --import MOK.der
 ```
 
-7. Reboot. Upon seeing the splash screen with the Legion logo, you may see a
-   blue screen (not of death) that asks if you want to manage MOK keys. Select
-   "Enroll MOK" on the menu and accept to enroll the new MOK key. After this
+7. **Reboot.** Upon seeing the splash screen with the Legion logo, you may see a
+   blue screen (not of death) that asks if you want to manage MOK keys. **Select
+   "Enroll MOK" on the menu and accept to enroll the new MOK key.** After this
    process, your OS will boot.
-8. Open a terminal in the `rtw89` directory that you cloned.
-9. Compile the driver, sign the compiled driver files with the MOK key, and
-   install the driver.
+8. **Open a terminal in the `rtw89` directory that you cloned.**
+9. **Compile the driver, sign the compiled driver files with the MOK key, and
+   install the driver.**
 
 ```bash
 make
@@ -75,18 +76,20 @@ make
 sudo make install
 ```
 
-10. Reboot. Your device should be able to connect to wireless Wi-Fi networks now.
+10. **Reboot.** Your device should be able to connect to wireless Wi-Fi networks
+    now.
 
 ### Kernel update
 
 After you have updated your Linux kernel, you need to recompile the driver and
 install it again.
 
-1. Open the terminal in the `rtw89` directory.
-2. Follow the steps below. The last 4 commands is exactly the same as the ones
-   in step 7 of the previous section. Note that if you have deleted the MOK key,
-   you will have to complete steps 3-7 of the previous section. The `make clean`
-   command is very important.
+1. **Reboot.**
+2. **Open the terminal in the `rtw89` directory.**
+3. **Follow the steps below.** The last 4 commands is exactly the same as the
+	 ones in step 7 of the previous section. Note that if you have deleted the MOK
+	 key, you will have to complete steps 3-7 of the previous section. The
+	 `make clean` command is very important.
 
 ```
 git pull
@@ -101,6 +104,38 @@ sudo make install
 ### Acknowledgement
 
 I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
-repository for their work on the driver. Many thanks to GitHub user
+repository for their work on the open-source driver. Many thanks to GitHub user
 **lukinoway** for sharing how they installed the driver on Fedora 34.
 
+### TL;DR
+
+I do not recommend copying and pasting this snippet into your terminal. Follow
+each step so you can fix any problem that arises.
+
+```
+# Connect using Ethernet or a wireless USB adapter to clone the rtw89 repository
+# on GitHub. You can use another computer.
+
+cd # Alternatively, cd to anywhere you want to clone the repository
+git clone https://github.com/lwfinger/rtw89 # Use option -b to clone a specific branch
+
+# Prepare a MOK for signing the driver.
+
+mkdir ~/MOK
+cd ~/MOK
+openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Custom MOK/"
+sudo mokutil --import MOK.der
+reboot
+
+# Upon reboot, you will see a blue screen for MOK management, after the Lenovo
+# splash screen. Do not skip this blue screen. Use it to enroll the MOK key
+# properly. After that, your Linux OS should boot.
+
+cd # cd to where you cloned the directory
+cd rtw89
+make
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89core.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89pci.ko
+sudo make install
+reboot
+```
