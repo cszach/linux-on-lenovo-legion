@@ -87,11 +87,11 @@ install it again.
 1. **Reboot.**
 2. **Open the terminal in the `rtw89` directory.**
 3. **Follow the steps below.** The last 4 commands is exactly the same as the
-	 ones in step 7 of the previous section. Note that if you have deleted the MOK
+	 ones in step 9 of the previous section. Note that if you have deleted the MOK
 	 key, you will have to complete steps 3-7 of the previous section. The
 	 `make clean` command is very important.
 
-```
+```bash
 git pull
 sudo make uninstall
 make clean
@@ -101,7 +101,7 @@ make
 sudo make install
 ```
 
-### Acknowledgement
+### Acknowledgment
 
 I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
 repository for their work on the open-source driver. Many thanks to GitHub user
@@ -112,7 +112,7 @@ repository for their work on the open-source driver. Many thanks to GitHub user
 I do not recommend copying and pasting this snippet into your terminal. Follow
 each step so you can fix any problem that arises.
 
-```
+```bash
 # Connect using Ethernet or a wireless USB adapter to clone the rtw89 repository
 # on GitHub. You can use another computer.
 
