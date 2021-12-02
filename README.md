@@ -26,6 +26,10 @@ Table of Content
 	- [Kernel update](#kernel-update)
 	- [Acknowledgment](#acknowledgment)
 	- [TL;DR](#tldr)
+2. [Brightness](#brightness)
+	- [Proposed solutions](#proposed-solutions)
+	- [Temporary solution](#temporary-solution)
+	- [References](#references)
 
 Wi-Fi
 -----
@@ -139,3 +143,52 @@ make
 sudo make install
 reboot
 ```
+
+Brightness
+----------
+
+You might not be able to adjust screen brightness in your Linux OS on Lenovo
+Legion. This might only happen in hybrid graphics mode.
+
+### Proposed solutions
+
+- **Try the `amdgpu.backlight=0` parameter in your kernel boot parameters.**
+  When you boot your machine, press E on your keyboard when you see the GRUB
+  boot menu. Then insert `amdgpu.backlight=0` into the kernel parameters. This
+  addition is temporary so you can see if it works. If it does, you can add the
+  parameter permanently e.g. using `grubby`:
+
+```bash
+sudo grubbby --args="amdgpu.backlight=0 --update-kernel $(sudo grubby --default-kernel)"
+```
+
+- The AMD iGPU might not support for brightness control due to a bug (refer to
+  the _References_ section below). Thus, you can **try using the NVIDIA dGPU for
+  this**. Please refer to the _References_ section below.
+
+### Temporary solution
+
+None of the above 2 proposed solutions have worked for me. Here is a temporary
+solution:
+
+```bash
+xrandr --output eDP --brightness 0.5
+```
+
+Replace `eDP` with the correct monitor identifier (try `xrandr --listmonitors`
+for a list) and `0.5` with the appropriate brightness from 0 to 1. Values over 1
+are also accepted but not recommended.
+
+### References
+
+Because I have not managed to fix this problem myself, the best I can do is to
+provide resources I have come across that might be of interest. I will certainly
+provide an update when I have managed to fix this problem.
+
+- [**lenovo-legion5-15arh05-scripts**](https://github.com/antony-jr/lenovo-legion5-15arh05-scripts)
+  (repository on GitHub). Please see inside the folders `AMDGPUFIX` and
+  `XOrgConfigurationNvidia`. The repository contains many other useful fixes you
+  might want for your Legion laptop, so I recommend checking the whole thing
+  out. Many thanks to Antory Jr for this work.
+- [This issue](https://gitlab.freedesktop.org/drm/amd/-/issues/1438) opened by
+  Antony Jr.
