@@ -9,7 +9,10 @@ Contributing
 ------------
 
 Any suggestion will be **very** appreciated. Feel free to open issues and pull
-requests for suggestions, comments, and questions.
+requests for suggestions, comments, and questions. If you have a workaround that
+you do not see presented here, please, **please** either open an issue or pull
+request. The goal here is to compile all the working solutions so everyone does
+not have to spend countless hours digging for solutions online.
 
 My system
 ---------
@@ -172,12 +175,32 @@ None of the above 2 proposed solutions have worked for me. Here is a temporary
 solution:
 
 ```bash
+xrandr --output MONITOR --brightness BRIGHTNESS
+```
+
+Replace `MONITOR` with the correct monitor identifier (try
+`xrandr --listmonitors` for a list) and `BRIGHTNESS` with the appropriate
+brightness from 0 to 1. Values over 1 are also accepted but not recommended.
+
+For example, here is my output of `xrandr --listmonitors`:
+
+```
+Monitors: 2
+ 0: +*eDP 1920/344x1080/194+0+0  eDP
+ 1: +HDMI-1-0 2560/597x1440/336+1920+0  HDMI-1-0
+```
+
+I connect my laptop to an external monitor via HDMI, which is why you see 2
+entries here (the first entry is obvious the Legion laptop's monitor). Hence, to
+set the laptop's monitor's brightness to 0.5, I run:
+
+```bash
 xrandr --output eDP --brightness 0.5
 ```
 
-Replace `eDP` with the correct monitor identifier (try `xrandr --listmonitors`
-for a list) and `0.5` with the appropriate brightness from 0 to 1. Values over 1
-are also accepted but not recommended.
+This solution does not work very well with night light, however. As soon as
+night light starts, you will lose what you have set for brightness. If you
+attempt to set brightness using this method again, night light will turn off.
 
 ### References
 
