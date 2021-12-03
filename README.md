@@ -33,6 +33,7 @@ Table of Content
 	- [Proposed solutions](#proposed-solutions)
 	- [Temporary solution](#temporary-solution)
 	- [References](#references)
+3. [Battery conservation mode](#battery-conservation-mode)
 
 Wi-Fi
 -----
@@ -212,6 +213,29 @@ provide an update when I have managed to fix this problem.
   (repository on GitHub). Please see inside the folders `AMDGPUFIX` and
   `XOrgConfigurationNvidia`. The repository contains many other useful fixes you
   might want for your Legion laptop, so I recommend checking the whole thing
-  out. Many thanks to Antory Jr for this work.
+  out. Many thanks to Antony Jr for this work.
 - [This issue](https://gitlab.freedesktop.org/drm/amd/-/issues/1438) opened by
   Antony Jr.
+
+Battery conservation mode
+-------------------------
+
+It is not a good idea to leave your laptop plugged in when it is already 100%
+charged, as this will damage your laptop's battery's health. However, it is also
+tiresome to have to manually unplug your laptop. Ideally, you want your laptop
+to automatically stop the charge after the battery reaches a certain level
+while it is still plugged in. Battery conservation does this.
+
+On Windows, there is a setting for enabling battery conservation in Lenovo
+Vantage. On Linux, simply run:
+
+```bash
+echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+```
+
+When battery conservation mode is on, your battery will stop charging if it is
+60% full or more. If you need to charge your laptop to, say, 80% so you can use
+it unplugged later, you will have to disable battery conservation. To do so,
+simply use the same command, replacing `1` with `0`.
+
+Thanks again to Antony Jr.
