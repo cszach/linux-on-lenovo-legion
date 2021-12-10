@@ -250,3 +250,4 @@ presets (some of which require manual color setting) or even create your own
 effects (please see the project on GitHub for more details). The program can be
 run in the CLI or the GUI. This works out of the box on my machine.
 
+![image](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
