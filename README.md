@@ -239,3 +239,14 @@ it unplugged later, you will have to disable battery conservation. To do so,
 simply use the same command, replacing `1` with `0`.
 
 Thanks again to Antony Jr.
+
+Keyboard's RGB
+--------------
+
+GitHub user **4JX** created [an awesome cross-platform
+application](https://github.com/4JX/L5P-Keyboard-RGB) for controlling the RGB
+lights of Lenovo Legion laptops' keyboards. You can choose from one of the
+presets (some of which require manual color setting) or even create your own
+effects (please see the project on GitHub for more details). The program can be
+run in the CLI or the GUI. This works out of the box on my machine.
+
