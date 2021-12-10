@@ -34,6 +34,7 @@ Table of Content
 	- [Temporary solution](#temporary-solution)
 	- [References](#references)
 3. [Battery conservation mode](#battery-conservation-mode)
+4. [Keyboard's RGB](#keyboards-rgb)
 
 Wi-Fi
 -----
@@ -247,7 +248,9 @@ GitHub user **4JX** created [an awesome cross-platform
 application](https://github.com/4JX/L5P-Keyboard-RGB) for controlling the RGB
 lights of Lenovo Legion laptops' keyboards. You can choose from one of the
 presets (some of which require manual color setting) or even create your own
-effects (please see the project on GitHub for more details). The program can be
-run in the CLI or the GUI. This works out of the box on my machine.
+effects (please see the project on GitHub for more details). You can also set
+the speed of the effect being used and the lights' brightness. The program can
+be run in the CLI or the GUI. This works out of the box on my machine. Many
+thanks again to GitHub user **4JX**.
 
-![image](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
+![screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
