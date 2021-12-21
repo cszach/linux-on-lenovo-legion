@@ -110,6 +110,8 @@ make
 sudo make install
 ```
 
+4. **Reboot.**
+
 ### Acknowledgment
 
 I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
