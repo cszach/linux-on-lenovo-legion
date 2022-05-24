@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd ~/rtw89
+git pull
+sudo make uninstall
+make clean
+make
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89core.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89pci.ko
+sudo make install
+cd -

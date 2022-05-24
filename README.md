@@ -18,8 +18,9 @@ My system
 ---------
 
 - **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
-- **Operating system**: Fedora 35
-- **Linux kernel's version** (as of latest commit): 5.15.5
+- **Operating system**: Fedora 36
+- **Windowing system**: X11
+- **Linux kernel's version** (as of latest commit): `5.17.8-300.fc36.x86_64`
 
 Table of Content
 ----------------
@@ -112,6 +113,9 @@ sudo make install
 
 4. **Reboot.**
 
+A Bash script that automates this process can be found in [`src`](src/). Be sure
+to modify the paths and file names accordingly.
+
 ### Acknowledgment
 
 I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
@@ -174,6 +178,11 @@ sudo grubbby --args="amdgpu.backlight=0 --update-kernel $(sudo grubby --default-
   this**. Please refer to the _References_ section below.
 
 ### Temporary solution
+
+> **Update**: As of now (using Fedora 36/X11/Linux kernel 5.17.8), I can control
+> brightness in hybrid graphics mode normally using the function keys. I still
+> have `amdgpu.backlight=0` in my kernel parameters; it is worth a try if you
+> cannot adjust the brightness.
 
 None of the above 2 proposed solutions have worked for me. Here is a temporary
 solution:
