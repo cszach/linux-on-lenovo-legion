@@ -46,19 +46,29 @@ RTL8852AE 802.11ax. Thus, you will need to download and install it.
 
 ### Downloading and installing the driver
 
+For this, we will work with the command line, so fire up the terminal. Logging
+in as root is not necessary.
+
 1. Please **temporarily connect to the Internet using Ethernet or a wireless USB
-   adapter.** You may also use another computer.
+   adapter.** You may also use another computer;
 2. **Download/clone [this repository](https://github.com/lwfinger/rtw89).** You
    can clone any of the `main`, `v5`, `v6`, and `v7` branches. I tried the
    `main` branch and the `v7` branch, both of which worked (I am currently using
-   the `v7`). But this might not be the case for your machine. In issue
-   [#38](https://github.com/lwfinger/rtw89/issues/38) of the repository,
-   GitHub user **lukinoway** insisted on using the `main` branch instead of the
-   `v5` branch. Please try until you find one that works.
+   the `v7`);
 3. **Create a directory for storing a MOK** (Machine Owner Key) to allow the
-   driver to run. You would want to keep this key, so store it with care. Assume
-   you store them in `~/MOK`.
-4. **Open a terminal in the directory you created in step 3.**
+   driver to run. A good choice is `~/.MOK` (we will be using it for the rest
+   of the instructions);
+
+```bash
+mkdir ~/.MOK
+```
+
+4. **Open the directory you created in step 3.**
+
+```bash
+cd ~/.MOK
+```
+
 5. **Request a new MOK key pair.**
 
 ```bash
@@ -75,14 +85,15 @@ sudo mokutil --import MOK.der
    blue screen (not of death) that asks if you want to manage MOK keys. **Select
    "Enroll MOK" on the menu and accept to enroll the new MOK key.** After this
    process, your OS will boot.
-8. **Open a terminal in the `rtw89` directory that you cloned.**
+8. **Open a terminal in the `rtw89` repository clone.** It is the directory you
+   cloned the `rtw89` repository into in step 2.
 9. **Compile the driver, sign the compiled driver files with the MOK key, and
    install the driver.**
 
 ```bash
 make
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89core.ko
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89pci.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/.MOK/MOK.priv ~/.MOK/MOK.der rtw89core.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/.MOK/MOK.priv ~/.MOK/MOK.der rtw89pci.ko
 sudo make install
 ```
 
@@ -94,20 +105,24 @@ sudo make install
 After you have updated your Linux kernel, you need to recompile the driver and
 install it again.
 
-1. **Reboot.**
+> **Note**: It has been a long time since I recompiled the driver after a Linux
+> kernel update, so my suggestion is to follow the steps below only when you
+> notice the Wi-Fi is not working after a kernel update.
+
+1. **Reboot.** If you have already rebooted after updating the kernel, you may
+   skip this step.
 2. **Open the terminal in the `rtw89` directory.**
 3. **Follow the steps below.** The last 4 commands is exactly the same as the
 	 ones in step 9 of the previous section. Note that if you have deleted the MOK
-	 key, you will have to complete steps 3-7 of the previous section. The
-	 `make clean` command is very important.
+	 key, you will have to complete steps 3-7 of the previous section.
 
 ```bash
 git pull
 sudo make uninstall
 make clean
 make
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89core.ko
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89pci.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/.MOK/MOK.priv ~/.MOK/MOK.der rtw89core.ko
+/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/.MOK/MOK.priv ~/.MOK/MOK.der rtw89pci.ko
 sudo make install
 ```
 
@@ -122,46 +137,13 @@ I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
 repository for their work on the open-source driver. Many thanks to GitHub user
 **lukinoway** for sharing how they installed the driver on Fedora 34.
 
-### TL;DR
-
-I do not recommend copying and pasting this snippet into your terminal. Follow
-each step so you can fix any problem that arises.
-
-```bash
-# Connect using Ethernet or a wireless USB adapter to clone the rtw89 repository
-# on GitHub. You can use another computer.
-
-cd # Alternatively, cd to anywhere you want to clone the repository
-git clone https://github.com/lwfinger/rtw89 # Use option -b to clone a specific branch
-
-# Prepare a MOK for signing the driver.
-
-mkdir ~/MOK
-cd ~/MOK
-openssl req -new -x509 -newkey rsa:2048 -keyout MOK.priv -outform DER -out MOK.der -nodes -days 36500 -subj "/CN=Custom MOK/"
-sudo mokutil --import MOK.der
-reboot
-
-# Upon reboot, you will see a blue screen for MOK management, after the Lenovo
-# splash screen. Do not skip this blue screen. Use it to enroll the MOK key
-# properly. After that, your Linux OS should boot.
-
-cd # cd to where you cloned the directory
-cd rtw89
-make
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89core.ko
-/usr/src/kernels/$(uname -r)/scripts/sign-file sha256 ~/MOK/MOK.priv ~/MOK/MOK.der rtw89pci.ko
-sudo make install
-reboot
-```
-
 Brightness
 ----------
 
 You might not be able to adjust screen brightness in your Linux OS on Lenovo
 Legion. This might only happen in hybrid graphics mode.
 
-### Proposed solutions
+### Solutions
 
 - **Try the `amdgpu.backlight=0` parameter in your kernel boot parameters.**
   When you boot your machine, press E on your keyboard when you see the GRUB
@@ -179,13 +161,13 @@ sudo grubbby --args="amdgpu.backlight=0 --update-kernel $(sudo grubby --default-
 
 ### Temporary solution
 
-> **Update**: As of now (using Fedora 36/X11/Linux kernel 5.17.8), I can control
-> brightness in hybrid graphics mode normally using the function keys. I still
-> have `amdgpu.backlight=0` in my kernel parameters; it is worth a try if you
-> cannot adjust the brightness.
+> **Update**: I used this temporary solution since none of the solutions above
+> worked for me. As of now (using Fedora 36/X11/Linux kernel 5.17.8), however,
+> I can control brightness in hybrid graphics mode normally using the function
+> keys. I still have `amdgpu.backlight=0` in my kernel parameters; it is worth a
+> try if you cannot adjust the brightness.
 
-None of the above 2 proposed solutions have worked for me. Here is a temporary
-solution:
+If none of the solution works for you, here is a temporary workaround:
 
 ```bash
 xrandr --output MONITOR --brightness BRIGHTNESS
@@ -204,8 +186,8 @@ Monitors: 2
 ```
 
 I connect my laptop to an external monitor via HDMI, which is why you see 2
-entries here (the first entry is obvious the Legion laptop's monitor). Hence, to
-set the laptop's monitor's brightness to 0.5, I run:
+entries here (the first entry is the Legion laptop's monitor). Hence, to set the
+laptop's monitor's brightness to 0.5, I run:
 
 ```bash
 xrandr --output eDP --brightness 0.5
@@ -216,10 +198,6 @@ night light starts, you will lose what you have set for brightness. If you
 attempt to set brightness using this method again, night light will turn off.
 
 ### References
-
-Because I have not managed to fix this problem myself, the best I can do is to
-provide resources I have come across that might be of interest. I will certainly
-provide an update when I have managed to fix this problem.
 
 - [**lenovo-legion5-15arh05-scripts**](https://github.com/antony-jr/lenovo-legion5-15arh05-scripts)
   (repository on GitHub). Please see inside the folders `AMDGPUFIX` and
@@ -236,10 +214,8 @@ It is not a good idea to leave your laptop plugged in when it is already 100%
 charged, as this will damage your laptop's battery's health. However, it is also
 tiresome to have to manually unplug your laptop. Ideally, you want your laptop
 to automatically stop the charge after the battery reaches a certain level
-while it is still plugged in. Battery conservation does this.
-
-On Windows, there is a setting for enabling battery conservation in Lenovo
-Vantage. On Linux, simply run:
+while it is still plugged in. Battery conservation does this. Windows users
+enjoy enabling this feature in Lenovo Vantage. On Linux, simply run:
 
 ```bash
 echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
