@@ -279,6 +279,8 @@ Start `glxgears`:
 glxgears -info | grep GL_RENDERER
 ```
 
+![Screenshot of glxgears](https://user-images.githubusercontent.com/24489228/222505570-8c8a7951-f225-4cfe-9f1e-208a4bfdbda2.png)
+
 The program shows an animation of three intermeshing gears rotating. In the
 terminal output, you should see your iGPU. This is mine (AMD iGPU, NVIDIA dGPU):
 
@@ -327,7 +329,7 @@ effects (please see the project on GitHub for more details). You can also set
 the speed of the effect being used and the lights' brightness. The program can
 be run in the CLI or the GUI. This works out of the box on my machine.
 
-![screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
+![Screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
 
 Fan control
 -----------
@@ -337,3 +339,9 @@ speeds and temperatures, switch between power modes, and more! It is called
 **[LenovoLegionLinux](https://github.com/johnfanv2/LenovoLegionLinux)** and I
 highly recommending checking out and starring the project. Thanks for letting me
 know about this great project!
+
+![Screenshot of LenovoLegionLinux's fan curve configuration GUI](https://user-images.githubusercontent.com/24489228/222505692-e1cf7345-4951-4668-a57d-29be3c04f051.jpg)
+
+![Screenshot of LenovoLegionLinux's fan monitor](https://user-images.githubusercontent.com/24489228/222505780-edce0904-5da5-4952-bed1-2b3519de7cd8.png)
+
+Screenshots courtesy of **johnfanv2**.
