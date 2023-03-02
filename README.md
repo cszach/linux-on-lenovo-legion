@@ -38,6 +38,7 @@ Table of Content
     - [Try it now](#try-it-now)
     - [Aliases](#aliases)
 5. [Keyboard's RGB](#keyboards-rgb)
+6. [Fan control](#fan-control)
 
 Wi-Fi
 -----
@@ -327,3 +328,12 @@ be run in the CLI or the GUI. This works out of the box on my machine. Many
 thanks again to GitHub user **4JX**.
 
 ![screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
+
+Fan control
+-----------
+
+@johnfanv2 created a tool that lets you create custom fan curves, monitor fan
+speeds and temperatures, switch between power modes, and more! It is called
+[LenovoLegionLinux](https://github.com/johnfanv2/LenovoLegionLinux) and I highly
+recommending checking out and staring the project. Thanks for letting me know of
+this great project!
