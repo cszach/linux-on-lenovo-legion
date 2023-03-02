@@ -32,7 +32,7 @@ Table of Content
 2. [Brightness](#brightness)
 	- [Solutions](#solutions)
 	- [Temporary solution](#temporary-solution)
-	- [References](#references)
+	- [See also](#see-also)
 3. [Battery conservation mode](#battery-conservation-mode)
 4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
     - [Try it now](#try-it-now)
@@ -49,8 +49,8 @@ RTL8852AE 802.11ax. Thus, you will need to download and install it.
 
 ### Downloading and installing the driver
 
-For this, we will work with the command line, so fire up the terminal. Logging
-in as root is not necessary.
+For this, we will work with the command line, so fire up the terminal. You don't
+need root permissions here.
 
 1. Please **temporarily connect to the Internet using Ethernet or a wireless USB
    adapter.** You may also use another computer;
@@ -136,9 +136,9 @@ to modify the paths and file names accordingly.
 
 ### Acknowledgment
 
-I thank GitHub user **lwfinger** and other contributors of the **rtw89** GitHub
-repository for their work on the open-source driver. Many thanks to GitHub user
-**lukinoway** for sharing how they installed the driver on Fedora 34.
+Thanks to **lwfinger** and other contributors of the **rtw89** GitHub repository
+for their work on the open-source driver. Many thanks to **lukinoway** for
+sharing how they installed the driver on Fedora 34.
 
 Brightness
 ----------
@@ -164,7 +164,7 @@ sudo grubbby --args="amdgpu.backlight=0 --update-kernel $(sudo grubby --default-
 
 ### Temporary solution
 
-> **Update**: I used this temporary solution since none of the solutions above
+> **Note**: I used this temporary solution since none of the solutions above
 > worked for me. As of now (using Fedora 36/X11/Linux kernel 5.17.8), however,
 > I can control brightness in hybrid graphics mode normally using the function
 > keys. I still have `amdgpu.backlight=0` in my kernel parameters; it is worth a
@@ -200,9 +200,9 @@ This solution does not work very well with night light, however. As soon as
 night light starts, you will lose what you have set for brightness. If you
 attempt to set brightness using this method again, night light will turn off.
 
-### References
+### See also
 
-- [**lenovo-legion5-15arh05-scripts**](https://github.com/antony-jr/lenovo-legion5-15arh05-scripts)
+- **[lenovo-legion5-15arh05-scripts](https://github.com/antony-jr/lenovo-legion5-15arh05-scripts)**
   (repository on GitHub). Please see inside the folders `AMDGPUFIX` and
   `XOrgConfigurationNvidia`. The repository contains many other useful fixes you
   might want for your Legion laptop, so I recommend checking the whole thing
@@ -225,9 +225,9 @@ echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
 ```
 
 When battery conservation mode is on, your battery will stop charging if it is
-60% full or more. If you need to charge your laptop to, say, 80% so you can use
-it unplugged later, you will have to disable battery conservation. To do so,
-simply use the same command, replacing `1` with `0`.
+**60% full** or more. If you need to charge your laptop to, say, 80% so you can
+use it unplugged later, you will have to disable battery conservation. To do so,
+simply use the same command, but replacing `1` with `0`.
 
 Thanks again to Antony Jr.
 
@@ -235,7 +235,8 @@ Launch applications on dedicated graphics card
 -----------------------------------------------
 
 > **Note**: Before you read this section, please have a dedicated graphics card
-> driver installed.
+> driver installed. This is quite dependent on your OS and desktop environment,
+> so I don't provide the instructions here. The Internet does though.
 
 Which graphics card is your machine running on?
 
@@ -248,7 +249,7 @@ glxinfo | egrep "OpenGL vendor|OpenGL renderer"
   GPU; 2. you are in Legion's discrete graphics mode (configurable when boot).
   While this is totally fine if you know what you are doing, I find it overkill
   to have everything run on dGPU when I don't need it most of the time (consumes
-  more power, increases your electricity bills);
+  more power, increases your electricity bills, etc.);
 - If it is your integrated graphics card (iGPU), this section is for you.
 
 While in hybrid graphics mode, we are interested in launching certain
@@ -318,22 +319,21 @@ computing!
 Keyboard's RGB
 --------------
 
-GitHub user **4JX** created [an awesome cross-platform
-application](https://github.com/4JX/L5P-Keyboard-RGB) for controlling the RGB
+**4JX** created **[an awesome cross-platform
+application](https://github.com/4JX/L5P-Keyboard-RGB)** for controlling the RGB
 lights of Lenovo Legion laptops' keyboards. You can choose from one of the
 presets (some of which require manual color setting) or even create your own
 effects (please see the project on GitHub for more details). You can also set
 the speed of the effect being used and the lights' brightness. The program can
-be run in the CLI or the GUI. This works out of the box on my machine. Many
-thanks again to GitHub user **4JX**.
+be run in the CLI or the GUI. This works out of the box on my machine.
 
 ![screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
 
 Fan control
 -----------
 
-@johnfanv2 created a tool that lets you create custom fan curves, monitor fan
+**johnfanv2** created a tool that lets you create custom fan curves, monitor fan
 speeds and temperatures, switch between power modes, and more! It is called
-[LenovoLegionLinux](https://github.com/johnfanv2/LenovoLegionLinux) and I highly
-recommending checking out and staring the project. Thanks for letting me know of
-this great project!
+**[LenovoLegionLinux](https://github.com/johnfanv2/LenovoLegionLinux)** and I
+highly recommending checking out and starring the project. Thanks for letting me
+know about this great project!
