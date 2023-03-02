@@ -35,6 +35,8 @@ Table of Content
 	- [References](#references)
 3. [Battery conservation mode](#battery-conservation-mode)
 4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
+    - [Try it now](#try-it-now)
+    - [Aliases](#aliases)
 5. [Keyboard's RGB](#keyboards-rgb)
 
 Wi-Fi
@@ -228,7 +230,7 @@ simply use the same command, replacing `1` with `0`.
 
 Thanks again to Antony Jr.
 
-Launch applications on dedicated graphics cards
+Launch applications on dedicated graphics card
 -----------------------------------------------
 
 > **Note**: Before you read this section, please have a dedicated graphics card
