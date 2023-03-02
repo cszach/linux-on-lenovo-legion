@@ -34,7 +34,8 @@ Table of Content
 	- [Temporary solution](#temporary-solution)
 	- [References](#references)
 3. [Battery conservation mode](#battery-conservation-mode)
-4. [Keyboard's RGB](#keyboards-rgb)
+4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
+5. [Keyboard's RGB](#keyboards-rgb)
 
 Wi-Fi
 -----
@@ -226,6 +227,90 @@ it unplugged later, you will have to disable battery conservation. To do so,
 simply use the same command, replacing `1` with `0`.
 
 Thanks again to Antony Jr.
+
+Launch applications on dedicated graphics cards
+-----------------------------------------------
+
+> **Note**: Before you read this section, please have a dedicated graphics card
+> driver installed.
+
+Which graphics card is your machine running on?
+
+```
+glxinfo | egrep "OpenGL vendor|OpenGL renderer"
+```
+
+- If it is your dedicated graphics card (dGPU), I can think of 2 reasons (please
+  contribute more, I am not an expert): 1. you have set the dGPU as your primary
+  GPU; 2. you are in Legion's discrete graphics mode (configurable when boot).
+  While this is totally fine if you know what you are doing, I find it overkill
+  to have everything run on dGPU when I don't need it most of the time (consumes
+  more power, increases your electricity bills);
+- If it is your integrated graphics card (iGPU), this section is for you.
+
+While in hybrid graphics mode, we are interested in launching certain
+applications, such as Blender and video games, on our dGPU, to take advantage
+of faster graphics computing power. GNOME has already allowed you to do so
+by right clicking an application and selecting "Launch using Discrete Graphics
+Card". But there is a more universal way to launch any application on the dGPU.
+
+If you are using an AMD dGPU, you can start an application on the dGPU from the
+terminal by setting the environment variable `DRI_PRIME`:
+
+```
+DRI_PRIME=1 command args...
+```
+
+And if you are using NVIDIA's:
+
+```
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia command args...
+```
+
+### Try it now
+
+Start `glxgears`:
+
+```
+glxgears -info | grep GL_RENDERER
+```
+
+The program shows an animation of three intermeshing gears rotating. In the
+terminal output, you should see your iGPU. This is mine (AMD iGPU, NVIDIA dGPU):
+
+```
+GL_RENDERER   = AMD Radeon Graphics (renoir, LLVM 14.0.0, DRM 3.48, 6.0.18-200.fc36.x86_64)
+```
+
+Kill the application. Now set the appropriate environment variable(s) and launch 
+it again. So for example, I would use the following command:
+
+```
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxgears -info | grep GL_RENDERER
+```
+
+And the result:
+
+```
+GL_RENDERER   = NVIDIA GeForce RTX 3060 Laptop GPU/PCIe/SSE2
+```
+
+### Aliases
+
+It would be a pain to have to set the variables every time. For convenience, put
+this in your `.bashrc`, or wherever you set your Shell's configuration:
+
+- AMD:
+```
+alias amd="DRI_PRIME=1"
+```
+- NVIDIA:
+```
+alias nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
+```
+
+I can then start glxgears on my dGPU just by typing `nvidia glxgears`. Happy
+computing!
 
 Keyboard's RGB
 --------------
