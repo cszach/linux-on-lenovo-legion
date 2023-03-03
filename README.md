@@ -34,6 +34,7 @@ Table of Content
 	- [Temporary solution](#temporary-solution)
 	- [See also](#see-also)
 3. [Battery conservation mode](#battery-conservation-mode)
+    - [Scripts](#scripts)
 4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
     - [Try it now](#try-it-now)
     - [Aliases](#aliases)
