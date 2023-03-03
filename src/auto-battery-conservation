@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# auto-battery-conservation - Turn battery conservation mode on or off depending
+# on the current battery level.
+#
+# This work is licensed under the Creative Commons Zero v1.0 Universal and
+# therefore belongs to the public domain. For more information, please visit:
+#
+#     https://creativecommons.org/publicdomain/zero/1.0
+
+battery="BAT0"
+battery_path="/sys/class/power_supply/$battery"
+battery_level=$( cat "$battery_path/capacity" )
+
+if [ "$battery_level" -ge "$1" ]
+then
+    echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+else
+    echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+fi

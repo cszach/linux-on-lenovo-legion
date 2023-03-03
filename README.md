@@ -229,7 +229,29 @@ When battery conservation mode is on, your battery will stop charging if it is
 use it unplugged later, you will have to disable battery conservation. To do so,
 simply use the same command, but replacing `1` with `0`.
 
-Thanks again to Antony Jr.
+### Scripts
+
+For convenience, I have written some scripts to help you control battery
+conservation.
+
+- [`battery-conservation-on`](src/battery-conservation-on): Enables battery
+  conservation. The script uses `sudo`, so you can run it as regular user;
+- [`battery-conservation-off`](src/battery-conservation-off): Disables battery
+  conservation;
+- [`auto-battery-conservation`](src/auto-battery-conservation): Turns battery
+  conservation on if the battery level is greater than or equal to a specified
+  integer, and off if less than. You must specify the integer as the first and
+  only command line argument to the script. This is useful if you don't like the
+  60% battery conservation trigger. The script is designed to be used as a
+  cronjob; you will need to run it as root, so open the cron editor using
+  `sudo crontab -e` and add the following cron entry:
+```
+0,30 * * * * auto-battery-conservation 80
+```
+  Feel free to, of course, use another number if you like, but I think 80% is a
+  great choice.
+
+Copy these scripts to a `PATH` directory. I personally use `~/.local/bin`.
 
 Launch applications on dedicated graphics card
 -----------------------------------------------
