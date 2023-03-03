@@ -37,6 +37,7 @@ Table of Content
     - [Scripts](#scripts)
 4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
     - [Try it now](#try-it-now)
+    - [Steam](#steam)
     - [Aliases](#aliases)
 5. [Keyboard's RGB](#keyboards-rgb)
 6. [Fan control](#fan-control)
@@ -322,6 +323,18 @@ And the result:
 
 ```
 GL_RENDERER   = NVIDIA GeForce RTX 3060 Laptop GPU/PCIe/SSE2
+```
+
+### Steam
+
+The technique also applies to Steam games. In your _Library_, edit the
+_Properties_ of the game that you wish to run on your graphics card. Under
+launch options, edit the launch command, and use `%command%` as the placeholder
+for the actual game command. For example, here is my launch command for Quake II
+RTX (NVIDIA dGPU):
+
+```
+__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia %command%
 ```
 
 ### Aliases
