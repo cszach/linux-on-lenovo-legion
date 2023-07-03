@@ -400,9 +400,6 @@ Cons:
 - <https://askubuntu.com/questions/1244674/20-04-on-external-monitor-2560x1600-extremely-slow>
 - [Requirements and limitations of XWayland on NVIDIA](http://us.download.nvidia.com/XFree86/Linux-x86_64/510.60.02/README/xwayland.html)
 
-Pros:
-- 
-
 Keyboard's RGB
 --------------
 
