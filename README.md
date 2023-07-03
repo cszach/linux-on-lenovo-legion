@@ -360,6 +360,43 @@ alias nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 I can then start glxgears on my dGPU just by typing `nvidia glxgears`. Happy
 computing!
 
+X11 vs. Wayland
+---------------
+
+> This section is reported on a Legion with NVIDIA dGPU. Please contribute to
+> it especially if you have experience dealing with an AMD dGPU.
+
+Pick your poison.
+
+### X11
+
+Pros:
+- handles night light on the external monitor correctly;
+- lets you use `nvidia-settings`.
+
+Cons:
+- external monitor is very laggy, even when set with high FPS, making it nearly
+  unusable.
+
+### Wayland
+
+Pros:
+- no external monitor lag.
+
+Cons:
+- night light does not apply on external monitor (at least with my conf.);
+- `nvidia-settings` is not supported;
+- no hardware-accelerated video encoding with VDPAU.
+
+### See also
+
+- <https://www.reddit.com/r/linuxquestions/comments/o9ilxc/linux_dual_monitor_lag/>
+- <https://askubuntu.com/questions/1244674/20-04-on-external-monitor-2560x1600-extremely-slow>
+- [Requirements and limitations of XWayland on NVIDIA](http://us.download.nvidia.com/XFree86/Linux-x86_64/510.60.02/README/xwayland.html)
+
+Pros:
+- 
+
 Keyboard's RGB
 --------------
 
