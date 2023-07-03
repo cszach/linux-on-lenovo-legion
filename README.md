@@ -1,6 +1,8 @@
 Using Linux on Lenovo Legion
 ============================
 
+[f37 update]: https://github.com/cszach/linux-on-lenovo-legion/issues/3
+
 This is a compilation of instructions and resources for those who use a Linux
 system (e.g. GNU plus Linux) on a Lenovo Legion laptop. More notes will be
 added as I discover more things.
@@ -18,9 +20,9 @@ My system
 ---------
 
 - **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
-- **Operating system**: Fedora 36
-- **Windowing system**: X11
-- **Linux kernel's version** (as of latest commit): `5.17.8-300.fc36.x86_64`
+- **Operating system**: Fedora 38
+- **Windowing system**: Wayland
+- **Linux kernel's version** (as of latest commit): `6.3.8-200.fc38.x86_64`
 
 Table of Content
 ----------------
@@ -34,16 +36,24 @@ Table of Content
 	- [Temporary solution](#temporary-solution)
 	- [See also](#see-also)
 3. [Battery conservation mode](#battery-conservation-mode)
-    - [Scripts](#scripts)
+	- [Scripts](#scripts)
 4. [Launch applications on dedicated graphics card](#launch-applications-on-dedicated-graphics-card)
-    - [Try it now](#try-it-now)
-    - [Steam](#steam)
-    - [Aliases](#aliases)
-5. [Keyboard's RGB](#keyboards-rgb)
-6. [Fan control](#fan-control)
+	- [Try it now](#try-it-now)
+	- [Steam](#steam)
+	- [Aliases](#aliases)
+5. [X11 vs. Wayland](#x11-vs-wayland)
+	- [X11](#x11)
+	- [Wayland](#wayland)
+	- [See also](#see-also-1)
+6. [Keyboard's RGB](#keyboards-rgb)
+7. [Fan control](#fan-control)
 
 Wi-Fi
 -----
+
+> **Fedora 37/38 update**: as documented in [#3][f37 update] (thanks @hrkrx) and
+> from my personal experience with Fedora 38, wi-fi seems to work out of the box
+> now for these two Fedora versions.
 
 This is perhaps the most frustrating issue and the problem you would want to fix
 first. It is likely that your system does not have the driver for Realtek
@@ -145,6 +155,8 @@ sharing how they installed the driver on Fedora 34.
 Brightness
 ----------
 
+> **Fedora 37/38 update**: Brightness controls work out of the box.
+
 You might not be able to adjust screen brightness in your Linux OS on Lenovo
 Legion. This might only happen in hybrid graphics mode.
 
@@ -208,9 +220,8 @@ attempt to set brightness using this method again, night light will turn off.
   (repository on GitHub). Please see inside the folders `AMDGPUFIX` and
   `XOrgConfigurationNvidia`. The repository contains many other useful fixes you
   might want for your Legion laptop, so I recommend checking the whole thing
-  out. Many thanks to Antony Jr for this work.
-- [This issue](https://gitlab.freedesktop.org/drm/amd/-/issues/1438) opened by
-  Antony Jr.
+  out. Many thanks to Antony Jr for this work;
+- <https://gitlab.freedesktop.org/drm/amd/-/issues/1438)>.
 
 Battery conservation mode
 -------------------------
@@ -250,8 +261,8 @@ conservation.
 ```
 */10 * * * * auto-battery-conservation 80
 ```
-  Feel free to, of course, use another number if you like, but I think 80% is a
-  great choice.
+
+Feel free to, of course, use another number if you like.
 
 Copy these scripts to a `PATH` directory. I personally use `~/.local/bin`.
 
@@ -260,7 +271,8 @@ Launch applications on dedicated graphics card
 
 > **Note**: Before you read this section, please have a dedicated graphics card
 > driver installed. This is quite dependent on your OS and desktop environment,
-> so I don't provide the instructions here. The Internet does though.
+> so I don't provide the instructions here (Fedora users are better off sticking
+> to [RPM Fusion's how-to](https://rpmfusion.org/Howto/NVIDIA?highlight=%28%5CbCategoryHowto%5Cb%29)).
 
 Which graphics card is your machine running on?
 
@@ -353,6 +365,40 @@ alias nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 
 I can then start glxgears on my dGPU just by typing `nvidia glxgears`. Happy
 computing!
+
+X11 vs. Wayland
+---------------
+
+> This section is reported on a Legion with NVIDIA dGPU. Please contribute to
+> it especially if you have experience dealing with an AMD dGPU.
+
+Pick your poison.
+
+### X11
+
+Pros:
+- handles night light on the external monitor correctly;
+- lets you use `nvidia-settings`.
+
+Cons:
+- external monitor is very laggy, even when set with high FPS, making it nearly
+  unusable.
+
+### Wayland
+
+Pros:
+- no external monitor lag.
+
+Cons:
+- night light does not apply on external monitor (at least with my conf.);
+- `nvidia-settings` is not supported;
+- no hardware-accelerated video encoding with VDPAU.
+
+### See also
+
+- <https://www.reddit.com/r/linuxquestions/comments/o9ilxc/linux_dual_monitor_lag/>
+- <https://askubuntu.com/questions/1244674/20-04-on-external-monitor-2560x1600-extremely-slow>
+- [Requirements and limitations of XWayland on NVIDIA](http://us.download.nvidia.com/XFree86/Linux-x86_64/510.60.02/README/xwayland.html)
 
 Keyboard's RGB
 --------------
