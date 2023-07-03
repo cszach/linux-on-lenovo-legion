@@ -18,9 +18,9 @@ My system
 ---------
 
 - **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
-- **Operating system**: Fedora 36
-- **Windowing system**: X11
-- **Linux kernel's version** (as of latest commit): `5.17.8-300.fc36.x86_64`
+- **Operating system**: Fedora 38
+- **Windowing system**: Wayland
+- **Linux kernel's version** (as of latest commit): `6.3.8-200.fc38.x86_64`
 
 Table of Content
 ----------------
@@ -44,6 +44,10 @@ Table of Content
 
 Wi-Fi
 -----
+
+> **Fedora 37/38 update**: as documented in #3 (thanks @hrkrx) and from my
+> personal experience with Fedora 38, wi-fi seems to work out of the box now
+> for these two Fedora versions.
 
 This is perhaps the most frustrating issue and the problem you would want to fix
 first. It is likely that your system does not have the driver for Realtek
@@ -144,6 +148,8 @@ sharing how they installed the driver on Fedora 34.
 
 Brightness
 ----------
+
+> **Fedora 38 update**: Brightness controls work out of the box.
 
 You might not be able to adjust screen brightness in your Linux OS on Lenovo
 Legion. This might only happen in hybrid graphics mode.
