@@ -41,7 +41,7 @@ Table of Content
 	- [Try it now](#try-it-now)
 	- [Steam](#steam)
 	- [Aliases](#aliases)
-5. [X11 vs. Wayland](#x11-vs-wayland)
+5. [Windowing system](#windowing-system)
 	- [X11](#x11)
 	- [Wayland](#wayland)
 	- [See also](#see-also-1)
@@ -366,8 +366,8 @@ alias nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 I can then start glxgears on my dGPU just by typing `nvidia glxgears`. Happy
 computing!
 
-X11 vs. Wayland
----------------
+Windowing system
+----------------
 
 > This section is reported on a Legion with NVIDIA dGPU. Please contribute to
 > it especially if you have experience dealing with an AMD dGPU.
@@ -393,6 +393,14 @@ Cons:
 - night light does not apply on external monitor (at least with my conf.);
 - `nvidia-settings` is not supported;
 - no hardware-accelerated video encoding with VDPAU.
+
+> **Note**: Having troubles with monitor displays on Wayland? Try enabling
+> **KMS** by adding `nvidia-drm.modeset=1` to your kernel parameters. Case in
+> point, I connected my external monitor to my Legion through an HDMI cable and
+> somehow only the external monitor was working; the laptop monitor was empty.
+> After making this fix, both monitors started to work normally. Read more
+> [here](https://rpmfusion.org/Howto/NVIDIA?highlight=%28%5CbCategoryHowto%5Cb%29#KMS).
+> NVIDIA drivers only.
 
 ### See also
 
