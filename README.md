@@ -47,6 +47,7 @@ Table of Content
 	- [See also](#see-also-1)
 6. [Keyboard's RGB](#keyboards-rgb)
 7. [Fan control](#fan-control)
+8. [FPC fingerprint](#fpc-fingerprint)
 
 Wi-Fi
 -----
@@ -436,8 +437,10 @@ know about this great project!
 
 Screenshots courtesy of **johnfanv2**.
 
-FPC fingerprint VID:105a PID:9800
----------------------------------
+FPC fingerprint
+---------------
+
+> Contributed by @kasra3422.
 
 ```bash
 $ sudo add-apt-repository ppa:libfprint-tod1-group/ppa
@@ -448,6 +451,4 @@ $ sudo apt install libfprint-2-tod1-fpc
 $ sudo reboot
 ```
 
-After boot up, I could enable fingerprint and use it to login.
-
-Read more [here](https://bugs.launchpad.net/ubuntu/+source/libfprint/+bug/1965931)
+Read more [here](https://bugs.launchpad.net/ubuntu/+source/libfprint/+bug/1965931).
