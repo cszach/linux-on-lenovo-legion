@@ -435,3 +435,19 @@ know about this great project!
 ![Screenshot of LenovoLegionLinux's fan monitor](https://user-images.githubusercontent.com/24489228/222505780-edce0904-5da5-4952-bed1-2b3519de7cd8.png)
 
 Screenshots courtesy of **johnfanv2**.
+
+FPC fingerprint VID:105a PID:9800
+---------------------------------
+
+```bash
+$ sudo add-apt-repository ppa:libfprint-tod1-group/ppa
+$ sudo apt update
+$ ubuntu-drivers list
+libfprint-2-tod1-fpc
+$ sudo apt install libfprint-2-tod1-fpc
+$ sudo reboot
+```
+
+After boot up, I could enable fingerprint and use it to login.
+
+Read more [here](https://bugs.launchpad.net/ubuntu/+source/libfprint/+bug/1965931)
