@@ -20,9 +20,9 @@ My system
 ---------
 
 - **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
-- **Operating system**: Fedora 38
+- **Operating system**: Fedora 39
 - **Windowing system**: Wayland
-- **Linux kernel's version** (as of latest commit): `6.3.8-200.fc38.x86_64`
+- **Linux kernel's version** (as of latest commit): `6.5.10-300.fc39.x86_64`
 
 Table of Content
 ----------------
@@ -41,6 +41,8 @@ Table of Content
 	- [Try it now](#try-it-now)
 	- [Steam](#steam)
 	- [Aliases](#aliases)
+    - [Google Chrome and WebGPU](#google-chrome-and-webgpu)
+    - [Firefox and WebGPU](#firefox-and-webgpu)
 5. [Windowing system](#windowing-system)
 	- [X11](#x11)
 	- [Wayland](#wayland)
@@ -52,7 +54,7 @@ Table of Content
 Wi-Fi
 -----
 
-> **Fedora 37/38 update**: as documented in [#3][f37 update] (thanks @hrkrx) and
+> **Fedora 37+ update**: as documented in [#3][f37 update] (thanks @hrkrx) and
 > from my personal experience with Fedora 38, wi-fi seems to work out of the box
 > now for these two Fedora versions.
 
@@ -62,10 +64,10 @@ RTL8852AE 802.11ax. Thus, you will need to download and install it.
 
 ### Downloading and installing the driver
 
-For this, we will work with the command line, so fire up the terminal. You don't
-need root permissions here.
+Get ready to work in the terminal! You don't need root permissions here;
+commands requiring root privileges will have `sudo` in them.
 
-1. Please **temporarily connect to the Internet using Ethernet or a wireless USB
+1. **Temporarily connect to the Internet using Ethernet or a wireless USB
    adapter.** You may also use another computer;
 2. **Download/clone [this repository](https://github.com/lwfinger/rtw89).** You
    can clone any of the `main`, `v5`, `v6`, and `v7` branches. I tried the
@@ -98,9 +100,9 @@ sudo mokutil --import MOK.der
 ```
 
 7. **Reboot.** Upon seeing the splash screen with the Legion logo, you may see a
-   blue screen (not of death) that asks if you want to manage MOK keys. **Select
-   "Enroll MOK" on the menu and accept to enroll the new MOK key.** After this
-   process, your OS will boot.
+   blue screen that asks if you want to manage MOK keys. **Select "Enroll MOK"
+   on the menu and accept to enroll the new MOK key.** After this process, your
+   OS will boot.
 8. **Open a terminal in the `rtw89` repository clone.** It is the directory you
    cloned the `rtw89` repository into in step 2.
 9. **Compile the driver, sign the compiled driver files with the MOK key, and
@@ -113,17 +115,12 @@ make
 sudo make install
 ```
 
-10. **Reboot.** Your device should be able to connect to wireless Wi-Fi networks
-    now.
+10. **Reboot.** Your device should be able to connect to Wi-Fi networks now.
 
 ### Kernel update
 
 After you have updated your Linux kernel, you need to recompile the driver and
 install it again.
-
-> **Note**: It has been a long time since I recompiled the driver after a Linux
-> kernel update, so my suggestion is to follow the steps below only when you
-> notice the Wi-Fi is not working after a kernel update.
 
 1. **Reboot.** If you have already rebooted after updating the kernel, you may
    skip this step.
@@ -149,17 +146,17 @@ to modify the paths and file names accordingly.
 
 ### Acknowledgment
 
-Thanks to **lwfinger** and other contributors of the **rtw89** GitHub repository
-for their work on the open-source driver. Many thanks to **lukinoway** for
-sharing how they installed the driver on Fedora 34.
+Thanks to **@lwfinger** and other contributors of the **rtw89** GitHub
+repository for their work on the open-source driver. Many thanks to
+**@lukinoway** for sharing how they installed the driver on Fedora 34.
 
 Brightness
 ----------
 
-> **Fedora 37/38 update**: Brightness controls work out of the box.
+> **Fedora 37+ update**: Brightness controls work out of the box.
 
-You might not be able to adjust screen brightness in your Linux OS on Lenovo
-Legion. This might only happen in hybrid graphics mode.
+Having troubles changing the screen brightness? Fn + F5/F6 does not work? Here
+are some things I have found.
 
 ### Solutions
 
@@ -173,17 +170,11 @@ Legion. This might only happen in hybrid graphics mode.
 sudo grubbby --args="amdgpu.backlight=0 --update-kernel $(sudo grubby --default-kernel)"
 ```
 
-- The AMD iGPU might not support for brightness control due to a bug (refer to
-  the _References_ section below). Thus, you can **try using the NVIDIA dGPU for
-  this**. Please refer to the _References_ section below.
+- The AMD iGPU might not support for brightness control due to a bug. Thus, you
+  can **try using the NVIDIA dGPU for this**. Please refer to the
+  [_See also_](#see-also) section below.
 
 ### Temporary solution
-
-> **Note**: I used this temporary solution since none of the solutions above
-> worked for me. As of now (using Fedora 36/X11/Linux kernel 5.17.8), however,
-> I can control brightness in hybrid graphics mode normally using the function
-> keys. I still have `amdgpu.backlight=0` in my kernel parameters; it is worth a
-> try if you cannot adjust the brightness.
 
 If none of the solution works for you, here is a temporary workaround:
 
@@ -232,16 +223,25 @@ charged, as this will damage your laptop's battery's health. However, it is also
 tiresome to have to manually unplug your laptop. Ideally, you want your laptop
 to automatically stop the charge after the battery reaches a certain level
 while it is still plugged in. Battery conservation does this. Windows users
-enjoy enabling this feature in Lenovo Vantage. On Linux, simply run:
+enjoy enabling this feature in Lenovo Vantage.
+
+On Linux, to enable battery conservation:
 
 ```bash
 echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
 ```
 
+…and to disable it, replace the `1` with `0`.
+
+```bash
+echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+```
+
 When battery conservation mode is on, your battery will stop charging if it is
 **60% full** or more. If you need to charge your laptop to, say, 80% so you can
-use it unplugged later, you will have to disable battery conservation. To do so,
-simply use the same command, but replacing `1` with `0`.
+use it unplugged later, you will have to disable battery conservation to let
+your device charge and turn conservation on when it reaches 80%. See below for
+a cronjob that does this for you.
 
 ### Scripts
 
@@ -262,6 +262,9 @@ conservation.
 ```
 */10 * * * * auto-battery-conservation 80
 ```
+
+> **Note**: You might have to put `bash /path/to/the/script 80` instead of just
+> `auto-battery-conservation 80` in the cron entry.
 
 Feel free to, of course, use another number if you like.
 
@@ -312,7 +315,7 @@ __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia command args...
 
 Start `glxgears`:
 
-```
+```bash
 glxgears -info | grep GL_RENDERER
 ```
 
@@ -328,7 +331,7 @@ GL_RENDERER   = AMD Radeon Graphics (renoir, LLVM 14.0.0, DRM 3.48, 6.0.18-200.f
 Kill the application. Now set the appropriate environment variable(s) and launch 
 it again. So for example, I would use the following command:
 
-```
+```bash
 __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glxgears -info | grep GL_RENDERER
 ```
 
@@ -356,16 +359,55 @@ It would be a pain to have to set the variables every time. For convenience, put
 this in your `.bashrc`, or wherever you set your Shell's configuration:
 
 - AMD:
-```
+```bash
 alias amd="DRI_PRIME=1"
 ```
 - NVIDIA:
-```
+```bash
 alias nvidia="__NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia"
 ```
 
 I can then start glxgears on my dGPU just by typing `nvidia glxgears`. Happy
 computing!
+
+### Google Chrome and WebGPU
+
+Web applications could benefit from GPU computing too! Launch Google Chrome on
+your dedicated graphics card (see instructions above), go to `chrome://gpu`, and
+navigate to the _Driver Information_ section to verify that Chrome is using the
+dGPU, and you are good to go!
+
+[Google Chrome 113+ ships with WebGPU][chrome webgpu], a new web graphics API
+that is the successor to WebGL. To enable WebGPU:
+
+1. In `chrome://settings`, make sure that hardware acceleration is enabled;
+2. Go to `chrome://flags`, and enable the WebGPU and Vulkan flags;
+3. **Close all Chrome windows**, and relaunch Google Chrome on dedicated
+   graphics card with the `--enable-unsafe-webgpu` option:
+
+```bash
+# nvidia here is the alias from the previous section
+nvidia google-chrome --enable-unsafe-webgpu
+```
+
+To make sure that WebGPU is working, go to `chrome://gpu`. It should say
+"WebGPU: Hardware accelerated" in the _Graphics Feature Status_ section. Try out
+some [WebGPU samples][webgpu samples]!
+
+[chrome webgpu]: https://developer.chrome.com/blog/webgpu-release/
+
+### Firefox and WebGPU
+
+I could not make Firefox Developer Edition run on my dGPU. However, Firefox
+Nightly works (just by launching on dedicated graphics card, see instructions
+above). Go to `about:support`, navigate to the _Graphics_ section and verify
+that Firefox is using dGPU.
+
+Firefox Nightly also comes with WebGPU enabled by default (check that
+`dom.webgpu.enabled` is set to `true` in `about:config`). Visit the [WebGPU
+samples][webgpu samples] and see if WebGPU is working.
+
+[webgpu samples]: https://webgpu.github.io/webgpu-samples/
 
 Windowing system
 ----------------
@@ -412,21 +454,22 @@ Cons:
 Keyboard's RGB
 --------------
 
-**4JX** created **[an awesome cross-platform
-application](https://github.com/4JX/L5P-Keyboard-RGB)** for controlling the RGB
-lights of Lenovo Legion laptops' keyboards. You can choose from one of the
-presets (some of which require manual color setting) or even create your own
-effects (please see the project on GitHub for more details). You can also set
-the speed of the effect being used and the lights' brightness. The program can
-be run in the CLI or the GUI. This works out of the box on my machine.
+**@4JX** created **[an awesome cross-platform application][keyboard rgb]** for
+controlling the RGB lights of Lenovo Legion laptops' keyboards. You can choose
+from one of the presets (some of which require manual color setting) or even
+create your own effects (please see the project on GitHub for more details). You
+can also set the speed of the effect being used and the lights' brightness. The
+program can be run in the CLI or the GUI and works out of the box on my machine.
 
 ![Screenshot of the application](https://user-images.githubusercontent.com/24489228/145649411-944838e1-ed89-4a96-bd29-20138baa9707.png)
+
+[keyboard rgb]: https://github.com/4JX/L5P-Keyboard-RGB
 
 Fan control
 -----------
 
-**johnfanv2** created a tool that lets you create custom fan curves, monitor fan
-speeds and temperatures, switch between power modes, and more! It is called
+**@johnfanv2** created a tool that lets you create custom fan curves, monitor
+fan speeds and temperatures, switch between power modes, and more! It is called
 **[LenovoLegionLinux](https://github.com/johnfanv2/LenovoLegionLinux)** and I
 highly recommending checking out and starring the project. Thanks for letting me
 know about this great project!
@@ -435,12 +478,12 @@ know about this great project!
 
 ![Screenshot of LenovoLegionLinux's fan monitor](https://user-images.githubusercontent.com/24489228/222505780-edce0904-5da5-4952-bed1-2b3519de7cd8.png)
 
-Screenshots courtesy of **johnfanv2**.
+Screenshots courtesy of **@johnfanv2**.
 
 FPC fingerprint
 ---------------
 
-> Contributed by @kasra3422.
+> Contributed by **@kasra3422** for Ubuntu, thanks.
 
 ```bash
 $ sudo add-apt-repository ppa:libfprint-tod1-group/ppa
