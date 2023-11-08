@@ -21,6 +21,7 @@ My system
 
 - **Machine**: Lenovo Legion 5 15ACH6H (Ryzen + NVIDIA)
 - **Operating system**: Fedora 39
+- **Desktop environment**: GNOME 45.1
 - **Windowing system**: Wayland
 - **Linux kernel's version** (as of latest commit): `6.5.10-300.fc39.x86_64`
 
