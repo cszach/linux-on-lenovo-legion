@@ -226,16 +226,16 @@ to automatically stop the charge after the battery reaches a certain level
 while it is still plugged in. Battery conservation does this. Windows users
 enjoy enabling this feature in Lenovo Vantage.
 
-On Linux, to enable battery conservation:
+On Linux, to enable battery conservation (requires sudo permission):
 
 ```bash
-echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+sudo bash -c "echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode"
 ```
 
 …and to disable it, replace the `1` with `0`.
 
 ```bash
-echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode
+sudo bash -c "echo 0 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004*/conservation_mode"
 ```
 
 When battery conservation mode is on, your battery will stop charging if it is
