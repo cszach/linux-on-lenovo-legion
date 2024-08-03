@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ "$(id -u)" -ne 0 ]; then
+  printf "You must run this script as root.\n"
+  exit 1
+fi
+
+POWER_SAVE_PATH="/sys/module/snd_hda_intel/parameters/power_save"
+POWER_CONTROL_PATH="/sys/bus/i2c/drivers/tas2781-hda/i2c-TIAS2781:00/power/control"
+
+check_paths() {
+  [ -e "$POWER_SAVE_PATH" ] && [ -e "$POWER_CONTROL_PATH" ]
+}
+
+while ! check_paths; do
+  sleep 1
+done
+
+# Disable snd_hda_intel power saving
+printf "0" > "$POWER_SAVE_PATH"
+
+# Disable runtime suspend/resume for tas2781
+printf "on" > "$POWER_CONTROL_PATH"

@@ -51,6 +51,7 @@ Table of Content
 6. [Keyboard's RGB](#keyboards-rgb)
 7. [Fan control](#fan-control)
 8. [FPC fingerprint](#fpc-fingerprint)
+9. [Speakers not working](#speakers-not-working)
 
 Wi-Fi
 -----
@@ -496,3 +497,12 @@ $ sudo reboot
 ```
 
 Read more [here](https://bugs.launchpad.net/ubuntu/+source/libfprint/+bug/1965931).
+
+Speakers not working
+--------------------
+
+If your integrated speakers produce no sound, but kernel and sound server seem to detect the sound card just fine,
+and the speaker connectors on the motherboard are intact and firmly attached, a likely reason for no sound is 
+power saving features of the laptop. This can be disabled with [the script](src/disable-speakers-power-saving)
+
+[Source@forum.manjaro.org](https://forum.manjaro.org/t/finally-got-sound-working-on-lenovo-legion-pro-7-16arx8h/164447)
